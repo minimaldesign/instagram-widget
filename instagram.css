@@ -1,0 +1,33 @@
+.instagram-widget {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.instagram-widget ul {
+    width: 100%;
+    height: 100%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.instagram-widget li {
+    width: 100%; /* listImagesAsBackground() */
+    height: 100%; /* listImagesAsBackground */
+    background-size: cover; /* listImagesAsBackground */
+    background-position: 50%; /* listImagesAsBackground */
+    position: absolute;
+    top: 0;
+    height: 100%;
+    padding: 0;
+    transition: opacity ease-in 1.25s;
+}
+
+.instagram-widget li.fade {
+    opacity: 0;
+}
+
+.instagram-widget img {
+    width: 100%;
+}
