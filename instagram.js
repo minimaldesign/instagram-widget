@@ -1,6 +1,6 @@
 (function init() {
   // see README.md for how to setup your token
-  const AUTH_TOKEN = '1518392443.7db5355.e9cbaf65eeb3499eb3544e834aecf8dd';
+  const AUTH_TOKEN = 'add your token here';
   // element the slideshow will be added to. Styles in instagram.css
   const TARGET_SELECTOR = '.instagram-widget';
   // how long the fade out between slides takes to kick in (fade out speed itself in CSS)
@@ -12,22 +12,19 @@
 
   function preloadImages(urls) {
     function loadImage(url) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const img = new Image();
+        img.src = url;
         img.onload = () => {
           resolve(img);
         };
-        img.onerror = () => {
-          reject(img); // TODO: log image that doesn't load
-        };
-        img.src = url;
       });
     }
     const promises = [];
     urls.forEach((url) => {
-      promises.push(loadImage(url));
+      promises.push(loadImage(url).catch(() => null));
     });
-    return Promise.all(promises);
+    return Promise.all(promises).then(data => data.filter(Boolean));
   }
 
   function listImages(images) {
@@ -72,7 +69,6 @@
     const imagesUrls = await fetch(url)
       .then(data => data.json())
       .then(data => data.data.reverse().map(item => item.images.standard_resolution.url));
-
     preloadImages(imagesUrls).then((images) => {
       if (BG_IMG) {
         listImagesAsBackground(imagesUrls);
